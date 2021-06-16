@@ -118,7 +118,33 @@ class Parser():
 
 
 class HourParser():
+    @staticmethod
+    def parseTimeStamp(timestamp):
+        
+        return date, int(hour)
 
     @staticmethod
-    def parseHourData(dataChunk):
+    def parseHourData(data_list, deviceId, hasVoc):
+        if hasVoc:
+            total_chunk = []
+            voc_data, pm25_data, hum_data, temp_data = data_list[0]["etl"], data_list[1]["etl"], data_list[2]["etl"], data_list[3]["etl"]
+            for i, j, k, z in zip(voc_data, pm25_data, hum_data, temp_data):
+                date = i["start"].split(' ')[0]
+                hour = int(i["start"].split(' ')[1].split(':')[0])
+                total_chunk.append([deviceId, i["avg"], j["avg"], k["avg"], z["avg"], date, hour])
+            total_chunk_np = np.array(total_chunk)
+            return total_chunk_np
+        else:
+            total_chunk = []
+            pm25_data, hum_data, temp_data = data_list[0]["etl"], data_list[1]["etl"], data_list[2]["etl"]
+            for j, k, z in zip(pm25_data, hum_data, temp_data):
+                date = j["start"].split(' ')[0]
+                hour = int(j["start"].split(' ')[1].split(':')[0])
+                total_chunk.append([deviceId, "None", j["avg"], k["avg"], z["avg"], date, hour])
+            total_chunk_np = np.array(total_chunk)
+            return total_chunk_np
+    
+
+
+
         

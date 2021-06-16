@@ -232,3 +232,19 @@ class Dbcontext():
         for index, i in enumerate(queries):
             print("Patch {} has been applied to database!".format(index))
             self.cursor.execute(i)
+
+    def ImportHourData(self, total_chunk_np, meta):
+
+        table_name = "hour_{}_{}".format(meta["porjectId"], meta["startMonth"])
+
+        ids = 1 if self.getBiggestId(table_name) == None else self.getBiggestId(table_name) + 1
+
+        
+        for i in range(0, total_chunk_np.shape[0]):
+            query = '''INSERT INTO {} (id, deviceid, voc, pm2_5, humidity, temperature, date, hour) 
+                        VALUES({}, \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\');
+                        '''.format(table_name, ids, total_chunk_np[i][0], total_chunk_np[i][1], total_chunk_np[i][2],
+                                    total_chunk_np[i][3], total_chunk_np[i][4],
+                                    total_chunk_np[i][5], total_chunk_np[i][6])
+            self.cursor.execute(query)
+            ids += 1

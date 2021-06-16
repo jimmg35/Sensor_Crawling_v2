@@ -116,7 +116,8 @@ class Requester():
                                                                    options["start"], 
                                                                    options["end"], 60), 
                                     headers={'CK': options["projectKey"]})
-        return response.text
+        
+        return json.loads(response.text)
 
 
     def getMinuteDataOfProject_interval_device(self, deviceid, CK, start, end, compare_stamp, ts):

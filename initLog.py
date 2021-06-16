@@ -32,17 +32,16 @@ if __name__ == "__main__":
     # query metadata from database
     rawdata = myDBcontext.queryDeviceSensorMeta_fixed()
 
-    sensor_items = ["voc", "pm2_5", "humidity", "temperature"]
+    #sensor_items = ["voc", "pm2_5", "humidity", "temperature"]
 
     with open(r"logging/january_log.txt", 'w') as f:
-        f.writelines("projectId,projectKey,deviceId,item,status\n")
+        f.writelines("projectId,projectKey,deviceId,status\n")
 
         for index_i, i in enumerate(rawdata):
-            for index_j, j in enumerate(sensor_items):
-                if index_i == len(rawdata)-1 and index_j == 3:
-                    f.writelines(str(i[0])+','+i[1]+','+str(i[2])+','+j+',notDownloaded')
-                else:
-                    f.writelines(str(i[0])+','+i[1]+','+str(i[2])+','+j+',notDownloaded\n')
+            if index_i == len(rawdata)-1:
+                f.writelines(str(i[0])+','+i[1]+','+str(i[2])+',notDownloaded')
+            else:
+                f.writelines(str(i[0])+','+i[1]+','+str(i[2])+',notDownloaded\n')
 
 
     os.rename(r"logging/january_log.txt", r"logging/january_log.csv")

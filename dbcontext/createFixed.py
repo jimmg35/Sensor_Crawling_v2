@@ -12,7 +12,7 @@ projects = ['528','671','672','673','674','675',
             '1162','1167','1184','1189','1192','1207']
             
 for i in projects:
-    build_tables["hour_" + i + "_" + str(int(sys.argv[5])) + "to" + str(int(sys.argv[5])+1)] = '''(ID BIGINT PRIMARY KEY,
+    build_tables["hour_" + i + "_" + str(sys.argv[5])] = '''(ID BIGINT PRIMARY KEY,
                                         DEVICEID TEXT,
                                         VOC TEXT,
                                         PM2_5 TEXT,
